@@ -1,24 +1,24 @@
 import numpy as np
 
 def one_hot_sequence(sequence):
-    one_hot = np.zeros((1,4,len(sequence)))
+    one_hot = np.zeros((1,4,len(sequence),1))
 
     for i in range(len(sequence)):
         if sequence[i] == 'A':
-            one_hot[0,0,i] = 1
+            one_hot[0,0,i,0] = 1
         elif sequence[i] == 'C':
-            one_hot[0,1,i] = 1
+            one_hot[0,1,i,0] = 1
         elif sequence[i] == 'G':
-            one_hot[0,2,i] = 1
+            one_hot[0,2,i,0] = 1
         elif sequence[i] == 'T':
-            one_hot[0,3,i] = 1
+            one_hot[0,3,i,0] = 1
 
     return one_hot
 
 def one_hot_list(entries,max_length):
     m = len(entries)
-    one_hot_ins = np.zeros((m,4,max_length))
-    one_hot_outs = np.zeros((m,4,max_length))
+    one_hot_ins = np.zeros((m,4,max_length,1))
+    one_hot_outs = np.zeros((m,4,max_length,1))
     print('Converting to one-hot...')
     
     for i in range(0,m):
