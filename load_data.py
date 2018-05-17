@@ -48,14 +48,15 @@ def load(datapath):
 
     for ln in file:
         toks = ln.split('\t')
-        max_length_in = max(max_length_in,len(toks[2]))
-        max_length_out = max(max_length_out,len(toks[3]))
-        rand_num = np.random.random()
-        
-        if(rand_num < 0.98):
-            train_entries.append(toks)
-        else:
-            test_entries.append(toks)
+        if(toks[2] != toks[3]):
+            max_length_in = max(max_length_in,len(toks[2]))
+            max_length_out = max(max_length_out,len(toks[3]))
+            
+            rand_num = np.random.random()
+            if(rand_num < 0.95):
+                train_entries.append(toks)
+            else:
+                test_entries.append(toks)
             
         # if toks[2] == toks[3]:
         #     same_entries.append(toks)
