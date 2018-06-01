@@ -39,35 +39,39 @@ def one_hot_list(entries,max_length):
     return one_hot_ins, one_hot_outs
 
 def load(datapath):
-    print('Loading data...')
+    print('Loading Data...')
     file = open(datapath, 'r')
 
     np.random.seed(0)
     train_entries = []
     test_entries = []
+    val_entries = []
     max_length_in = 0
     max_length_out = 0
 
     for ln in file:
         toks = ln.split('\t')
+        rand_num = np.random.random()
         if(toks[2] != toks[3]):
             max_length_in = max(max_length_in,len(toks[2]))
             max_length_out = max(max_length_out,len(toks[3]))
             
-            rand_num = np.random.random()
             if(rand_num < 0.95):
                 train_entries.append(toks)
-            else:
+            elif(rand_num < 0.975):
                 test_entries.append(toks)
+            else:
+                val_entries.append(toks)
             
         if toks[2] == toks[3]:
-            if(rand_num > 0.95)
+            if(rand_num > 0.975):
+                val_entries.append(toks)
+            elif(rand_num > 0.95):
                 test_entries.append(toks)
 
     file.close()
-    # all_entries = same_entries + diff_entries
-    # num_entries = len(all_entries)
-    num_entries = len(train_entries) + len(test_entries)
+
+    num_entries = len(train_entries) + len(test_entries) + len(val_entries)
     
     # ANALYZE DATA
     print(str(num_entries) + ' sequences were uploaded')
@@ -78,6 +82,7 @@ def load(datapath):
     # CONVERT DATA OR SUBSET OF DATA TO ONE-HOT
     [X_train, Y_train] = one_hot_list(train_entries, max(max_length_in,max_length_out))
     [X_test, Y_test] = one_hot_list(test_entries, max(max_length_in,max_length_out))
+    [X_val, Y_val] = one_hot_list(val_entries, max(max_length_in,max_length_out))
     
-    return X_train, Y_train, X_test, Y_test
+    return X_train, Y_train, X_test, Y_test, X_val, Y_val
 
