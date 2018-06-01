@@ -60,10 +60,9 @@ def load(datapath):
             else:
                 test_entries.append(toks)
             
-        # if toks[2] == toks[3]:
-        #     same_entries.append(toks)
-        # else:
-        #     diff_entries.append(toks)
+        if toks[2] == toks[3]:
+            if(rand_num > 0.95)
+                test_entries.append(toks)
 
     file.close()
     # all_entries = same_entries + diff_entries
