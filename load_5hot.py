@@ -68,6 +68,8 @@ def load(datapath):
                 val_entries.append(toks)
             elif(rand_num > 0.95):
                 test_entries.append(toks)
+            elif(rand_num > 0.9):
+                train_entries.append(toks)
 
     file.close()
 
