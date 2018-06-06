@@ -1,6 +1,7 @@
 import numpy as np
 
 def convert_to_nucs(one_hot):
+    # Takes in a one-hot vector of shape (5, length)
     rows = np.argmax(one_hot,axis=0)
     conf = np.max(one_hot,axis=0)
     nucs = ''
@@ -22,6 +23,17 @@ def convert_to_nucs(one_hot):
             nucs = nucs+'-'
             
     return nucs
+
+def convert_to_hardmax(one_hot):
+    # Takes in a one-hot vector of shape (5, length)
+    rows = np.argmax(one_hot,axis=0)
+    conf = np.max(one_hot,axis=0)
+    for idx in range(one_hot.shape[1]):
+        one_hot[:,idx] = 0
+        if(conf[idx]>0.3):
+            one_hot[rows[idx],idx] = 1
+            
+    return one_hot
 
 def show_noise(pred,denoised,noisy):
     noise = ''
