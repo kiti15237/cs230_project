@@ -106,13 +106,13 @@ for ln in file:
     if(toks[2]== toks[3]):
         if rand_num > 0.975:
             val_entries.append([toks[2], toks[3]])
-            ynoise_val.append([-1])
+            ynoise_val.append([0])
         elif rand_num > 0.95:
             test_entries.append([toks[2], toks[3]])
-            ynoise_test.append([-1])
+            ynoise_test.append([0])
         elif rand_num > 0.9:
             train_entries.append([toks[2], toks[3]])
-            ynoise_train.append([-1])
+            ynoise_train.append([0])
             
 file.close()
 
@@ -334,8 +334,8 @@ history = History()
 filepath="seqWeights/ConvNet-test-adam_lr1e-2-{epoch:02d}-{val_acc:.2f}.hdf5"
 checkpoint = ModelCheckpoint(filepath, monitor='val_acc', verbose=1, save_best_only=True, mode='max')
 numExamples = 1000
-batch_size = 128
-epochs = 20
+batch_size = 64
+epochs = 15
 print(X_train.shape)
 print((X_train[0:numExamples,:,:,:]).shape)
 #mymodel.fit(X_train[0:numExamples, :, :,:],
