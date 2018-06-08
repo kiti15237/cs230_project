@@ -85,20 +85,22 @@ def calcError(y_predicted, y_true, X_data, verbose = False):
 #Usage:
 #1. errors = calcError(y_predicted , y_true , X_data = , verbose = True)
 #2. plot_conf(errors)
-def plot_ind_conf(mat, type_pred, i):
+def plot_ind_conf(fig, mat, type_pred, i):
     ax = fig.add_subplot(2, 2, i)
     cax = ax.matshow(mat)
-    fig.colorbar(cax)
+    ax.tick_params(labelsize= 20) 
+    cb = fig.colorbar(cax)
+    cb.ax.set_yticklabels(cb.ax.get_yticklabels(), fontsize= 20)
     ax.set_xticklabels([''] + ['A', 'C','G', 'T', '-'])
     ax.set_yticklabels([''] + ['A', 'C','G', 'T', '-'])
-    plt.ylabel("From")
-    plt.title( type_pred + " predictions \n \n To \n")
+    plt.ylabel("From", fontsize = 20)
+    plt.title( type_pred + " predictions \n \n To \n", fontsize = 20)
     
 def plot_conf(errors):
-    fig = plt.figure(figsize = (10,10))  
+    fig = plt.figure(figsize = (15,15))  
     fig.subplots_adjust(hspace= 0.4, wspace=0.4)
-    plot_ind_conf(errors['conf_mat']['good'], "Good", 1)
-    plot_ind_conf(errors['conf_mat']['bad'], "Bad", 2)
-    plot_ind_conf(errors['conf_mat']['fail'], "Fail To Change", 3)
-    plot_ind_conf(errors['conf_mat']['baseline'], "Baseline", 4)
+    plot_ind_conf(fig, errors['conf_mat']['good'], "Good", 1)
+    plot_ind_conf(fig, errors['conf_mat']['bad'], "Bad", 2)
+    plot_ind_conf(fig, errors['conf_mat']['fail'], "Fail To Change", 3)
+    plot_ind_conf(fig, errors['conf_mat']['baseline'], "Baseline", 4)
 
