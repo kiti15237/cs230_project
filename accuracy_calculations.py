@@ -33,6 +33,7 @@ def calcError(y_predicted, y_true, X_data, verbose = False):
     conf_mat['good'] = np.zeros((5, 5))
     conf_mat['bad'] = np.zeros((5, 5))
     conf_mat['fail'] = np.zeros((5, 5))
+    conf_mat['baseline'] = np.zeros((5,5))
     
     for i in range(y_predicted.shape[0]):
         target_char = ind_to_char[np.argmax(y_true[i,0:seq_lengths[i]], axis = -1)]
@@ -45,6 +46,7 @@ def calcError(y_predicted, y_true, X_data, verbose = False):
         to_red = np.where((target_char != pred_char) & (target_char == test_char))[0]
         to_green = np.where((target_char != test_char) & (target_char == pred_char))[0]
         to_blue = np.where((target_char != test_char) & (target_char != pred_char))[0]
+        should_change = np.where((target_char != test_char))[0]
         
         for ind in to_green:
             ind1 = char_to_ind[test_char[ind]]
@@ -56,8 +58,12 @@ def calcError(y_predicted, y_true, X_data, verbose = False):
             conf_mat['bad'][ind1, ind2] += 1
         for ind in to_blue:
             ind1 = char_to_ind[test_char[ind]]
-            ind2 = char_to_ind[pred_char[ind]]
+            ind2 = char_to_ind[target_char[ind]]
             conf_mat['fail'][ind1, ind2] += 1
+        for ind in should_change:
+            ind1 = char_to_ind[test_char[ind]]
+            ind2 = char_to_ind[pred_char[ind]]
+            conf_mat['baseline'][ind1, ind2] += 1
 
         bad_changes += len(to_red)
         good_changes += len(to_green)
@@ -75,4 +81,24 @@ def calcError(y_predicted, y_true, X_data, verbose = False):
     
     return(errors)
 
+
+#Usage:
+#1. errors = calcError(y_predicted , y_true , X_data = , verbose = True)
+#2. plot_conf(errors)
+def plot_ind_conf(mat, type_pred, i):
+    ax = fig.add_subplot(2, 2, i)
+    cax = ax.matshow(mat)
+    fig.colorbar(cax)
+    ax.set_xticklabels([''] + ['A', 'C','G', 'T', '-'])
+    ax.set_yticklabels([''] + ['A', 'C','G', 'T', '-'])
+    plt.ylabel("From")
+    plt.title( type_pred + " predictions \n \n To \n")
+    
+def plot_conf(errors):
+    fig = plt.figure(figsize = (10,10))  
+    fig.subplots_adjust(hspace= 0.4, wspace=0.4)
+    plot_ind_conf(errors['conf_mat']['good'], "Good", 1)
+    plot_ind_conf(errors['conf_mat']['bad'], "Bad", 2)
+    plot_ind_conf(errors['conf_mat']['fail'], "Fail To Change", 3)
+    plot_ind_conf(errors['conf_mat']['baseline'], "Baseline", 4)
 
