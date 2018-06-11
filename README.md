@@ -7,7 +7,9 @@ Contributors:
 
 Data:
 Study PRJEB6244
+
 Link: http://www.ebi.ac.uk/ena/data/view/PRJEB6244
+
 Note: All data are stored local to our machines and shared via google drive
 
 The project attempts to tackle the DNA sequence denoising from two approaches:
