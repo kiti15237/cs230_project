@@ -1,0 +1,5 @@
+Directions:
+-the files are of type h5, hdf5 for storing the model and weights.
+-lr=learning rate
+-models are saved with the date and time appended in the end 
+-h5 files used for pickle to load the history and plot the losses.
